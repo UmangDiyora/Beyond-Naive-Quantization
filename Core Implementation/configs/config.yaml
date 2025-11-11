@@ -1,0 +1,37 @@
+hardware:
+  device: cuda
+  seed: 42
+
+analysis:
+  results_dir: ../results
+
+data:
+  celeba:
+    # Path can be relative to project root or absolute
+    root: data/celeba
+    batch_size: 32
+    num_workers: 4
+
+models:
+  pretrained: true
+  architectures:
+    - resnet50
+    # You can add more architectures later, e.g. mobilenet_v2, efficientnet_b0
+  num_classes: 2
+
+training:
+  learning_rate: 0.0003
+  weight_decay: 0.0001
+  epochs: 2
+
+quantization:
+  methods:
+    bit_widths: [8, 4]
+    ptq:
+      calibration_samples: 512
+      backends: ["fbgemm"]
+      calibration_method: "minmax"
+    qat:
+      epochs: 1
+      learning_rate: 0.0001
+
